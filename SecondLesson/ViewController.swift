@@ -37,34 +37,35 @@ class ViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    @IBAction func redTextValue() {
-        insertTextFieldValue(redSlider, redSliderLabel, redTextField)
-        changeBackgroundColor()
+    @IBAction func inputRgbValue(_ sender: UITextField) {
+        switch sender.tag {
+        case 0:
+            insertTextFieldValue(redSlider, redSliderLabel, redTextField)
+            changeBackgroundColor()
+        case 1:
+            insertTextFieldValue(greenSlider, greenSliderLabel, greenTextField)
+            changeBackgroundColor()
+        case 2:
+            insertTextFieldValue(blueSlider, blueSliderLabel, blueTextField)
+            changeBackgroundColor()
+        default:
+            break
+        }
     }
     
-    @IBAction func greenTextValue() {
-        insertTextFieldValue(greenSlider, greenSliderLabel, greenTextField)
-        changeBackgroundColor()
-    }
-    
-    @IBAction func blueTextValue() {
-        insertTextFieldValue(blueSlider, blueSliderLabel, blueTextField)
-        changeBackgroundColor()
-    }
-    
-    @IBAction func redSliderAction() {
-        sliderAction(redSlider, redSliderLabel, redTextField)
-        changeBackgroundColor()
-    }
-    
-    @IBAction func greenSliderAction() {
-        sliderAction(greenSlider, greenSliderLabel, greenTextField)
-        changeBackgroundColor()
-    }
-    
-    @IBAction func blueSliderAction() {
-        sliderAction(blueSlider, blueSliderLabel, blueTextField)
-        changeBackgroundColor()
+    @IBAction func rgbSlider(_ sender: UISlider) {
+        switch sender.tag {
+        case 0:
+            sliderAction(redSlider, redSliderLabel, redTextField)
+            changeBackgroundColor()
+        case 1:
+            sliderAction(greenSlider, greenSliderLabel, greenTextField)
+            changeBackgroundColor()
+        case 2:
+            sliderAction(blueSlider, blueSliderLabel, blueTextField)
+            changeBackgroundColor()
+        default: break
+        }
     }
     
     private func changeBackgroundColor() {
