@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Foundation
 
 class ViewController: UIViewController {
     
@@ -27,10 +26,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        redTextField.addDoneButtonOnKeyboard()
-        greenTextField.addDoneButtonOnKeyboard()
-        blueTextField.addDoneButtonOnKeyboard()
-        changeBackgroundColor()
+        addDoneButtonTo(redTextField)
+        addDoneButtonTo(greenTextField)
+        addDoneButtonTo(blueTextField)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -64,6 +62,7 @@ class ViewController: UIViewController {
         changeBackgroundColor()
     }
     
+    
     private func changeBackgroundColor() {
         mixedColorView.backgroundColor = UIColor(
             red: CGFloat(redSlider.value),
@@ -89,40 +88,27 @@ class ViewController: UIViewController {
     }
 }
 
-extension UITextField{
+extension ViewController {
     
-    @IBInspectable var doneAccessory: Bool{
-        get{
-            return self.doneAccessory
-        }
-        set (hasDone) {
-            if hasDone{
-                addDoneButtonOnKeyboard()
-            }
-        }
+    private func addDoneButtonTo(_ textField: UITextField) {
+        
+        let keyboardToolbar = UIToolbar()
+        textField.inputAccessoryView = keyboardToolbar
+        keyboardToolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title:"Done",
+                                         style: .done,
+                                         target: self,
+                                         action: #selector(didTapDone))
+        
+        let flexBarButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                            target: nil,
+                                            action: nil)
+         
+        keyboardToolbar.items = [flexBarButton, doneButton]
     }
-    
-    func addDoneButtonOnKeyboard() {
-        
-        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 400))
-        
-        doneToolbar.barStyle = .default
-        
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: "Done",
-                                                    style: .done,
-                                                    target: self,
-                                                    action: #selector(self.doneButtonAction))
-        
-        let items = [flexSpace, done]
-        doneToolbar.items = items
-        doneToolbar.sizeToFit()
-        
-        self.inputAccessoryView = doneToolbar
-    }
-    
-    @objc func doneButtonAction() {
-        self.resignFirstResponder()
+    @objc private func didTapDone() {
+        view.endEditing(true)
     }
 }
 
